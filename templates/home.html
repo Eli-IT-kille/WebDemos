@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bankstatistik</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f9;
+        }
+        .stat {
+            margin: 20px 0;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .stat h2 {
+            margin: 0 0 10px;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Bankstatistik</h1>
+    <div class="stat">
+        <h2>Antal kunder:</h2>
+        <p>{{ customers }}</p>
+    </div>
+    <div class="stat">
+        <h2>Antal konto:</h2>
+        <p>{{ accounts }}</p>
+    </div>
+    <div class="stat">
+        <h2>Total balans på alla konton:</h2>
+        <p>{{ total_balance }}</p>
+    </div>
+</body>
+</html>

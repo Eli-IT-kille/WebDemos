@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kundinformation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f9;
+        }
+        .customer-info, .account-info {
+            margin: 20px 0;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .customer-info h2, .account-info h2 {
+            margin: 0 0 10px;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Kundinformation</h1>
+    <div class="customer-info">
+        <h2>Kunddetaljer</h2>
+        <p><strong>Förnamn:</strong> {{ customer.given_name }}</p>
+        <p><strong>Efternamn:</strong> {{ customer.surname}}</p>
+        <p><strong>Stad:</strong> {{ customer.city }}</p>
+        <p><strong>Totalt saldo:</strong> {{ total_balance }}</p>
+    </div>
+    <div class="account-info">
+        <h2>Konton</h2>
+        <ul>
+            {% for account in accounts %}
+            <li>
+                <p><strong>Kontonummer:</strong> {{ account.id }}</p>
+                <p><strong>Saldo:</strong> {{ account.balance }}</p>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>

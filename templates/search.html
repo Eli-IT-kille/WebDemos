@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sök Kunder</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f9;
+        }
+        .search-container {
+            margin-bottom: 20px;
+        }
+        .result {
+            margin-top: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <h1>Sök Kunder</h1>
+    <div class="search-container">
+        <form method="GET" action="/search">
+            <label for="surname">Efternamn:</label>
+            <input type="text" id="surname" name="surname">
+            <label for="given_name">Förnamn:</label>
+            <input type="text" id="given_name" name="given_name">
+            <label for="city">Stad:</label>
+            <input type="text" id="city" name="city">
+            <button type="submit">Sök</button>
+        </form>
+    </div>
+    <div class="result">
+        {% if customers %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Kundnummer</th>
+                    <th>Personnummer</th>
+                    <th>Efternamn</th>
+                    <th>Förnamn</th>
+                    <th>Adress</th>
+                    <th>Stad</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for customer in customers %}
+                <tr>
+                    <td>{{ customer.id }}</td>
+                    <td>{{ customer.national_id }}</td>
+                    <td>{{ customer.surname }}</td>
+                    <td>{{ customer.lastname }}</td>
+                    <td>{{ customer.streetaddress }}</td>
+                    <td>{{ customer.city }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>Inga kunder hittades.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
