@@ -28,7 +28,7 @@ class User(db.Model, UserMixin):
 import random
 import enum
 
-MAX_NR_OF_CUSTOMERS = 50
+MAX_NR_OF_CUSTOMERS = 5000
 MAX_NR_OF_ACCOUNTS = 4
 MINIMUM_NR_OF_ACCOUNTS = 1
 MAX_NR_OF_TRANSACTIONS = 30
