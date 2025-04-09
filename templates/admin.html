@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard - Lindas SUPER-BANK{% endblock %}
+
+{% block content %}
+<main class="container-fluid">
+    <div class="row">
+        <!-- Side Navigation -->
+        
+            
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h2>Välkommen till Admin Panel</h2>
+                <div class="d-flex flex-column align-items-center mb-3">
+                    <img src="https://robohash.org/{{ current_user.email }}" class="profil-img">
+                    <h5 class="mt-2">{{ current_user.email }}</h5>
+                </div>
+                
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title">Hantera användare </h5>
+                    </div>
+                    <div class="card-body">
+                        <a class="nav-link" href="/manageUsers">
+                            <i class="bi bi-person-lines-fill"></i> Hantera användare & roller
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title">Skapa användare</h5>
+                    </div>
+                    <div class="card-body">
+                         <!-- Create User Button -->
+                        <a class="nav-link" href="{{ url_for('UserPage.create_user') }}">
+                            <i class="bi bi-person-lines-fill"></i> Skapa nya användare
+                        </a>
+                    </div>
+                </div>
+            </div>
+           
+            
+    </div>
+</main>
+{% endblock %}

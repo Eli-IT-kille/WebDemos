@@ -1,80 +1,155 @@
-/* Reset CSS för att standardisera stilar */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
 body {
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
-    background-color: #f4f4f4;
-    color: #333;
+    margin-top: 10vh; /* This ensures the form is not too low */
+}
+
+/* Table Styling */
+table{
+    width: 100%;
+}
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table th {
+    background-color: #343a40; /* Dark Header */
+    color: white;
+}
+
+.table-hover tbody tr:hover {
+    background-color: #f8f9fa; /* Light hover effect */
+}
+
+.badge {
+    font-size: 0.9rem;
+    padding: 0.4em 0.7em;
+}
+
+.btn-sm {
+    font-size: 0.8rem;
+    padding: 5px 10px;
+}
+.btn {
+    border-radius: 5px;
+    font-size: 1rem;
+    padding: 8px 16px;
+}
+
+
+body, html {
     margin: 0;
     padding: 0;
+    width: 100%;
 }
 
-/* Grundlayout */
-header {
-    background: #007bff;
+
+.container {
+    margin-left: auto;  /* Remove any default margin */
+    padding: 0 ; /* Remove any default padding */
+}
+
+.row{
+    margin-left: auto;
+}
+
+.navbar .navbar-brand {
+    margin: 1%;
     color: white;
-    padding: 1rem 0;
-    text-align: center;
 }
 
-nav {
-    background: #333;
+.navbar .nav-link {
     color: white;
-    padding: 0.5rem;
-    text-align: center;
+    font-size: 2rem;
 }
 
-nav a {
-    color: white;
-    text-decoration: none;
-    margin: 0 1rem;
+.page-item{
+    margin-left: 1rem;
+    margin-right:1rem ;
 }
 
-nav a:hover {
-    text-decoration: underline;
+.col-md-9 {
+    flex: 0 0 auto;
+    width: 100%;
+}
+.profil-img{
+    width: 80px;
+    height: 80px;
+    box-shadow: 10px 10px 5px rgb(195, 204, 207);
 }
 
-main {
-    max-width: 800px;
-    margin: 2rem auto;
-    padding: 1rem;
-    background: white;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
+div .shadow-index{
+    box-shadow:  10px 10px 5px 12px  rgb(195, 204, 207); 
+    width: 100%;  
 }
 
-footer {
-    text-align: center;
-    padding: 1rem 0;
-    background: #333;
-    color: white;
-    margin-top: 2rem;
+.snabbåtkomst{
+   margin-bottom: 2%;
+   border-bottom: 1px solid #cdd3da;
+   padding: 1%;
 }
 
-/* Extra styling */
-h1, h2, h3 {
-    margin-bottom: 1rem;
-    color: #007bff;
+
+/* Gradient background for login page */
+/* Gradient background for the card (form container) */
+.gradient-custom {
+    background: #6a11cb;  /* Fallback for old browsers */
+    background: -webkit-linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1)); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1)); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    border-radius: 1rem;
 }
 
-p {
-    margin-bottom: 1rem;
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    body {
+        margin-top: 5vh; /* Adjust margin for smaller screens */
+    }
+
+    .navbar .nav-link {
+        font-size: 1.2rem;
+    }
+
+    .profil-img {
+        width: 60px;
+        height: 60px;
+    }
+
+    .btn {
+        font-size: 0.9rem;
+        padding: 6px 12px;
+    }
+
+    .table {
+        display: block;
+        overflow-x: auto;
+    }
+    
+    .page-item {
+        margin: 0.5rem;
+    }
+
+    .gradient-custom {
+        border-radius: 0.5rem;
+    }
 }
 
-button {
-    background: #007bff;
-    color: white;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 3px;
-    cursor: pointer;
+@media (max-width: 380px) {
+    .navbar .nav-link {
+        font-size: 1rem;
+    }
+
+    .btn {
+        font-size: 0.8rem;
+        padding: 5px 10px;
+    }
+
+    .profil-img {
+        width: 50px;
+        height: 50px;
+    }
+
+    .table {
+        font-size: 0.9rem;
+    }
 }
 
-button:hover {
-    background: #0056b3;
-}

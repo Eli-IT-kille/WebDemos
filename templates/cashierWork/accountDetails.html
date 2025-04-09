@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+{% block title %}Konto Detaljer - Lindas SUPER-BANK{% endblock %}
+
+{% block content %}
+<main class="container-fluid">
+    <div class="row">
+        <div class="col-md-9 mb-4">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h2>Detaljer för konto: {{ account.id }}</h2>
+            </div>
+
+            <!-- Konto Detaljer -->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Konto Information</h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>Kontonummer:</strong> {{ account.id }}</p>
+                    <p><strong>Saldo:</strong> {{ account.balance }} SEK</p>
+                    <p><strong>Kontotyp:</strong> {{ account.account_type.value }}</p>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h5 class="card-title">Transaktioner</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Typ</th>
+                                <th>Belopp</th>
+                                <th>Datum</th>
+                            </tr>
+                        </thead>
+                        <tbody id="transaction-table-body">
+                            {% for transaction in transactions[:20] %}
+                            <tr>
+                                <td>{{ transaction.type.value }}</td>
+                                <td>{{ transaction.amount }} SEK</td>
+                                <td>{{ transaction.date.strftime('%Y-%m-%d %H:%M') }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% if transactions|length > 20 %}
+                    <button id="load-more" class="btn btn-primary" data-offset="20">Ladda fler</button>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const loadMoreBtn = document.getElementById("load-more");
+                const transactionTableBody = document.getElementById("transaction-table-body");
+            
+                if (loadMoreBtn) {
+                    loadMoreBtn.addEventListener("click", function () {
+                        let offset = parseInt(loadMoreBtn.getAttribute("data-offset"));
+                        let accountId = "{{ account.id }}";
+            
+                        fetch(`/cashierwork/account_transactions/${accountId}/${offset}`)
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.length === 0) {
+                                    loadMoreBtn.style.display = "none"; // Dölj knappen om inga fler transaktioner finns
+                                } else {
+                                    data.forEach(transaction => {
+                                        let row = `<tr>
+                                            <td>${transaction.type}</td>
+                                            <td>${transaction.amount} SEK</td>
+                                            <td>${transaction.date}</td>
+                                        </tr>`;
+                                        transactionTableBody.insertAdjacentHTML("beforeend", row);
+                                    });
+                                    loadMoreBtn.setAttribute("data-offset", offset + 20);
+                                }
+                            })
+                            .catch(error => console.error("Error loading transactions:", error));
+                    });
+                }
+            });
+            </script>
+            
+            <div class="mt-4">
+                <a href="{{ url_for('CustomerPage.view_account', customer_id=account.customer_id) }}" class="btn btn-secondary">Tillbaka till kundprofil</a>
+            </div>
+        </div>
+    </div>
+</main>
+
+{% endblock %}

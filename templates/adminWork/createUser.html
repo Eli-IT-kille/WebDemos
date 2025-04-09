@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}Skapa Användare{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+  
+        <!-- Main content area -->
+       
+
+    <!-- User creation form (hidden initially) -->
+    <div id="createUserForm" class="overlay">
+        <div class="form-container">
+            <form method="POST" action="{{ url_for('UserPage.create_user') }}">
+                <h5>Skapa Användare</h5>
+                <div class="form-group">
+                    <label for="email">E-post:</label>
+                    <input type="email" class="form-control" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Lösenord:</label>
+                    <input type="password" class="form-control" name="password" required>
+                </div>
+                <div class="form-group">
+                    <label for="role">Roll:</label>
+                    <select class="form-control" name="role">
+                        <option value="admin">Admin</option>
+                        <option value="cashier">Cashier</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-success">Skapa användare</button>
+                
+                <a href="{{ url_for('site.admin_page') }}" class="btn btn-secondary">Avbryt</a>
+
+            </form>
+        </div>
+    </div>
+
+</div>
+
+
+{% endblock %}

@@ -1,40 +1,57 @@
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from sqlalchemy import String, Integer, DateTime, ForeignKey, Enum, Numeric
+from sqlalchemy import String, Integer, DateTime, ForeignKey, Enum, Numeric, Boolean
 from datetime import datetime, timedelta
 from faker import Faker
 from decimal import Decimal
-
-##added recently
-from flask_security import UserMixin, RoleMixin
-
-db = SQLAlchemy()
-
-roles_users = db.Table('roles_users',
-    db.Column('user_id', db.Integer(), db.ForeignKey('user.id')),
-    db.Column('role_id', db.Integer(), db.ForeignKey('role.id')))
-
-class Role(db.Model, RoleMixin):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(80), unique=True)
-
-class User(db.Model, UserMixin):
-    id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(255), unique=True)
-    password = db.Column(db.String(255))
-    active = db.Column(db.Boolean())
-    roles = db
-
 import random
 import enum
+from flask_security import SQLAlchemyUserDatastore, hash_password
+from flask_security.models import fsqla_v3 as fsqla
 
-MAX_NR_OF_CUSTOMERS = 5000
+
+
+MAX_NR_OF_CUSTOMERS = 500
 MAX_NR_OF_ACCOUNTS = 4
 MINIMUM_NR_OF_ACCOUNTS = 1
 MAX_NR_OF_TRANSACTIONS = 30
 MINIMUM_NR_OF_TRANSACTIONS = 3
 
 db = SQLAlchemy()
+
+
+roles_users = db.Table('roles_users',
+
+    db.Column('user_id', db.Integer(), db.ForeignKey('User.id')),
+
+    db.Column('role_id', db.Integer(), db.ForeignKey('Role.id')))
+
+
+
+class Role(db.Model, fsqla.FsRoleMixin):
+
+    __tablename__ = "Role"
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    name: Mapped[str] = mapped_column(String(80), nullable=False, unique=True)
+    description: Mapped[str] = mapped_column(String(255), nullable=False)
+
+
+
+class User(db.Model,  fsqla.FsUserMixin):
+
+    __tablename__ = "User"
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    password: Mapped[str] = mapped_column(String(255), nullable=False)
+    email: Mapped[str] = mapped_column(String(50), nullable=False, unique=True)
+    active: Mapped[bool] = mapped_column(Boolean, default=True)
+    fs_uniquifier: Mapped[str] = mapped_column(String(255), nullable=False, unique=True)
+    roles: Mapped[list[Role]] = relationship("Role", secondary=roles_users, back_populates="users")
+
+Role.users = relationship("User", secondary=roles_users, back_populates="roles")
+
+# Initialize the user datastore
+user_datastore = SQLAlchemyUserDatastore(db, User, Role)
+
 
 class Customer(db.Model):
     __tablename__ = "Customers"
@@ -113,11 +130,25 @@ class Transaction(db.Model):
     account: Mapped["Account"] = relationship(
         "Account", back_populates="transactions", lazy="select"
     )
+  
+
+# Initialize Faker and the database seeding function
 
 def seedData(db):
 
     fake = Faker()
     list_of_account_types = list(AccountType)
+    if not Role.query.first():
+        user_datastore.create_role(name="Admin", description="Master")
+        user_datastore.create_role(name="User", description="Slave")
+        user_datastore.create_role(name="Cashier",description="Cashier")
+        db.session.commit()
+
+    if not User.query.first():
+        user_datastore.create_user(email='sebastian.ohman@systementor.se', password='Hejsan123#', roles=['Admin'])
+        user_datastore.create_user(email='sebastian.ohman@teknikhögskolan.se', password='Hejsan123#', roles=['Cashier'])
+        db.session.commit()
+        
 
     number_of_customers_in_db =  Customer.query.count()
     while number_of_customers_in_db < MAX_NR_OF_CUSTOMERS:

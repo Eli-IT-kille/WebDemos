@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}Sök Kund - Lindas SUPER-BANK{% endblock %}
+
+{% block content %}
+<main class="container-fluid">
+    <div class="row">
+        <div class="col-md-9 mb-4">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h2>Sök efter kund</h2>
+            </div>
+
+            <!-- Search Form -->
+            <form method="GET" class="mb-3">
+                <div class="input-group">
+                    <input type="text" name="search" class="form-control" placeholder="Sök efter namn, ID eller e-post..." value="{{ search_query }}">
+                    <button type="submit" class="btn btn-primary">Sök</button>
+                </div>
+            </form>
+
+            {% if search_query and customers %}
+                <h4>Resultat för "{{ search_query }}"</h4>
+
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Förnamn</th>
+                            <th>Efternamn</th>
+                            <th>Email</th>
+                            <th>Åtgärd</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for customer in customers %}
+                        <tr>
+                            <td>{{ customer.id }}</td>
+                            <td>{{ customer.given_name }}</td>
+                            <td>{{ customer.surname }}</td>
+                            <td>{{ customer.email_address }}</td>
+                            <td>
+                                <a href="{{ url_for('CustomerPage.create_account', customer_id=customer.id) }}" class="btn btn-sm btn-success">Skapa Konto</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% elif search_query %}
+                <p class="text-muted">Inga kunder hittades.</p>
+            {% endif %}
+        </div>
+        <!-- Back Button -->
+        <div class="mt-4">
+            <a href="{{ url_for('site.cashier_page') }}" class="btn btn-secondary">Tillbaka till  Cashier Panel</a>
+        </div>
+
+    </div>
+</main>
+{% endblock %}
