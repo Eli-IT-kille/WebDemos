@@ -5,6 +5,7 @@ from models import db, seedData, user_datastore
 import os
 from dotenv import load_dotenv
 from config import Config  # Import Config class
+import pkg_resources
 
 #------ import the blue prints -------------#
 from areas.site.sitePages import siteBluePrint
